@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module SampleApp
-  class Application < Rails::Application
+  class Application<Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -38,5 +38,15 @@ module SampleApp
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
-  end
+
+    #part of a spork hack.
+    if Rails.env.test?
+      initializer :after => :initialize_dependency_mechanism do
+      #Work around initializer in railties/lib/rails/application/bootstrap.rb
+      ActiveSupport::Dependencies.mechanism = :load
+      end
+    end
+      
 end
+end
+
