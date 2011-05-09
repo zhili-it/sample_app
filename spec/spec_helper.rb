@@ -54,6 +54,10 @@ RSpec.configure do |config|
    
   #part of a spork hack, see http://bit.ly/arY19y
   ActiveSupport::Dependencies.clear
+
+  def test_sign_in(user)
+    controller.sign_in(user)
+  end
 end
 end
 
